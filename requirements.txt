@@ -5,7 +5,6 @@ Werkzeug==0.11.11
 html5lib==0.999
 httplib2==0.9
 oauthlib==1.0.0
-request==0.0.0
 requests==2.7.0
 twilio==5.6.0
 wsgiref==0.1.2
