@@ -12,9 +12,14 @@ def sms():
     """Respond to incoming calls with a simple text message."""
 
     resp = twilio.twiml.Response()
-    msg = "Hello, this is your assistant. :) Let's begin!"+", Body:"+request.values.get('Body', None)
+    message_body = request.values.get('Body', None)
 
-    resp.message(msg)
+    # Remove annoying text prefix announcing trial version
+    prefix = "Sent from your Twilio trial account - "
+    message_body = message_body[len(prefix):]
+    message = "Hello, this is your assistant. :) Let's begin!" + ", Body:" + message_body
+
+    resp.message(message)
 
     # For TESTing -- START
 
@@ -25,10 +30,10 @@ def sms():
     client = TwilioRestClient(account_sid, auth_token)
 
     message = client.messages.create(to="+919591361570", from_="+18779545971",
-                                         body=msg)
+                                         body=message)
     # For TESTing -- END
 
-
+    # Return the message to Twilio (or send out the message)
     return str(resp)
 
 if __name__ == "__main__":
