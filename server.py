@@ -12,10 +12,13 @@ def sms():
     """Respond to incoming calls with a simple text message."""
 
     resp = twilio.twiml.Response()
-    msg = "Hello, this is your assistant. :) Let's begin!"
+    msg = "Hello, this is your assistant. :) Let's begin!"+", Body:"+request.values.get('Body', None)
+
     resp.message(msg)
 
     # For TESTing -- START
+
+    # Credentials owner: jiteshjha96@gmail.com
     # Find these values at https://twilio.com/user/account
     account_sid = "ACe9748f2bce3601801167fa0791836c3e"
     auth_token = "cef3bac7ba6d045c7e6cf4b6c21581eb"

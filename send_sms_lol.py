@@ -1,6 +1,7 @@
 # Download the twilio-python library from http://twilio.com/docs/libraries
 from twilio.rest import TwilioRestClient
 
+# Credentials owner: yklal95@gmail.com
 # Find these values at https://twilio.com/user/account
 account_sid = "ACe464c41a9b742a67a494ae0b08fd6a7c"
 auth_token = "8473ba13daed9e9f7a3d8fe2cb20941d"
