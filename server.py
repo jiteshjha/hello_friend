@@ -180,13 +180,14 @@ def getNews(entities):
     resp = twilio.twiml.Response()
     newstopic = entities['news_topic'][0]['value']
 
+    # default topic
     if newstopic is None:
-        newstopic = "world" # lol
+        newstopic = "world"
 
-    resp = requests.get(url='https://api.datamarket.azure.com/Bing/Search/News?$format=json&Query=%27' + newstopic + "%27", \
+    response = requests.get(url='https://api.datamarket.azure.com/Bing/Search/News?$format=json&Query=%27' + newstopic + "%27", \
      auth=(bing_api_key, bing_api_key))
 
-    news_dict = json.loads(resp.text)
+    news_dict = json.loads(response.text)
     news = news_dict.get('d').get('results')
 
     message = ""
@@ -200,10 +201,7 @@ def getNews(entities):
         for item in news:
             message += "- " + item.get('Title') + "\n"
 
-"""LINE REPEAT HERE, CHECK FOR FUCK UP"""
-    resp = twilio.twiml.Response()
     resp.message(message)
-    # print message
 
     # For TESTing -- START
     send_sms_to_jitesh(message)
