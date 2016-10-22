@@ -8,5 +8,5 @@ auth_token = "8473ba13daed9e9f7a3d8fe2cb20941d"
 client = TwilioRestClient(account_sid, auth_token)
 
 message = client.messages.create(to="+18779545971", from_="+12024992521",
-                                     body="Give me news on sports")
+                                     body="Define intricate")
 print message

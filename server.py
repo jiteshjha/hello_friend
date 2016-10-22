@@ -183,10 +183,10 @@ def getNews(entities):
     if newstopic is None:
         newstopic = "world" # lol
 
-    r = requests.get(url='https://api.datamarket.azure.com/Bing/Search/News?$format=json&Query=%27' + newstopic + "%27", \
+    resp = requests.get(url='https://api.datamarket.azure.com/Bing/Search/News?$format=json&Query=%27' + newstopic + "%27", \
      auth=(bing_api_key, bing_api_key))
 
-    news_dict = json.loads(r.text)
+    news_dict = json.loads(resp.text)
     news = news_dict.get('d').get('results')
 
     message = ""
@@ -201,7 +201,7 @@ def getNews(entities):
             message += "- " + item.get('Title') + "\n"
 
 """LINE REPEAT HERE, CHECK FOR FUCK UP"""
-    # resp = twilio.twiml.Response()
+    resp = twilio.twiml.Response()
     resp.message(message)
     # print message
 
