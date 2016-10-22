@@ -221,7 +221,7 @@ def define(entities):
     top_definitions = all_definitions[0]
     definition = top_definitions['Text']
 
-    message = topic + " is defined as " + definition
+    message = topic + " is defined as - " + definition
 
     resp.message(message)
     # print message
