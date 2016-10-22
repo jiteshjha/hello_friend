@@ -22,29 +22,6 @@ def send_sms_to_jitesh(message):
                                          body=message)
 # For TESTing -- END
 
-
-
-# @app.route("/sms", methods=['GET', 'POST'])
-# def sms():
-#     """Respond to incoming calls with a simple text message."""
-#
-#     resp = twilio.twiml.Response()
-#     message_body = request.values.get('Body', None)
-#
-#     # Remove annoying text prefix announcing trial version
-#     prefix = "Sent from your Twilio trial account - "
-#     message_body = message_body[len(prefix):]
-#     message = "Hello, this is your assistant. :) Let's begin!" + " Body:" + message_body
-#
-#     resp.message(message)
-#
-#     # For TESTing -- START
-#     send_sms_to_jitesh(message)
-#     # For TESTing -- END
-#
-#     # Return the message to Twilio (or send out the message)
-#     return str(resp)
-
 noIntent = [
     "I'm having trouble understanding you, could you rephrase your question?",
     "I didn't catch that, could you rephrase your query?",
@@ -66,7 +43,18 @@ def no_intent():
 @app.route("/weather", methods=['POST'])
 def weather(entities):
     resp = twilio.twiml.Response()
-    message = entities['location'][0]['value']
+    location = entities['location'][0]['value']
+    response = requests.get(url="http://api.openweathermap.org/data/2.5/weather?q=" + location + "&APPID=500d01a6ece6498b1cbf94ed23519119")
+    dict_response = json.loads(response.text)
+
+    temperature_in_celsius = round(dict_response['main']['temp'] - 273.15, 2)
+    humidity = dict_response['main']['humidity']
+    weather_description = dict_response['weather'][0]['description']
+
+    message = "The weather in " + location + ": " + weather_description + ". "
+    message += "The temperature is: " + str(temperature_in_celsius) + " C."
+    message += "The humidity is: " + str(humidity) + " %."
+
     resp.message(message)
 
     # For TESTing -- START
