@@ -224,11 +224,11 @@ def define(entities):
     #
     # message = topic + " is defined as - " + definition
 
-    resp.message(str(entities['intent']))
+    resp.message(str(entities['wikipedia_search_query']))
     # print message
 
     # For TESTing -- START
-    send_sms_to_jitesh(str(entities['intent']))
+    send_sms_to_jitesh(str(entities['wikipedia_search_query']))
     # For TESTing -- END
 
     return resp
