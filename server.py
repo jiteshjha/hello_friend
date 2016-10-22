@@ -63,6 +63,39 @@ def weather(entities):
 
     return resp
 
+@app.route("/navigate", methods=['POST'])
+def navigate(entities):
+    resp = twilio.twiml.Response()
+    destination = dict_response['entities']['to'][0]['value']
+    origin = dict_response['entities']['from'][0]['value']
+
+    key = "GSC5hkB0CEmUyk4nI2MY~HxNEzo1P1bHB1sX8EzDJpA~AmYeCHqvBerEI06DBSKWfo4pgB1w9Krgk7EH6lhGqqf3s5RaJArOzWJ-SL6AYVVw"
+    bingMapsResponse = requests.get(url="http://dev.virtualearth.net/REST/V1/Routes/Driving?wp.0=" + origin + "&wp.1=" + destination + "&avoid=minimizeTolls&key="+key)
+    bingMaps_dict = json.loads(bingMapsResponse.text)
+    resources = bingMaps_dict.get('resourceSets')[0].get('resources')
+    routeLegs = resources[0].get('routeLegs')
+    message = ""
+    distance = routeLegs[0].get('routeSubLegs')[0].get('travelDistance')
+    message += "Total Trip Distance: " + str(distance) + " km\n"
+    duration = routeLegs[0].get('routeSubLegs')[0].get('travelDuration')
+    message += "Total Trip Duration: " + str(duration/60) + " min \n"
+    itineraryItems = routeLegs[0].get('itineraryItems')
+    count = 1
+    for item in itineraryItems:
+        message += str(count) + ". " + item.get('instruction').get('text') + " ("
+        message += str(item.get('travelDistance')) + " km, "
+        message += str(item.get('travelDuration') / 60 ) + " min)"
+        message += "\n"
+        count +=1
+
+    resp.message(message)
+
+    # For TESTing -- START
+    send_sms_to_jitesh(message)
+    # For TESTing -- END
+
+    return resp
+
 
 @app.route("/sms", methods=['GET', 'POST'])
 def sms():
@@ -91,6 +124,8 @@ def sms():
         msg = no_intent()
     elif intent == "weather":
         msg = weather(entities)
+    elif intent == "navigate"
+        msg = navigate(entities)
     else:
         msg = "Feature not supported"
 
