@@ -70,7 +70,9 @@ def sms():
 
     # Remove annoying text prefix announcing trial version
     prefix = "Sent from your Twilio trial account - "
-    message_body = message_body[len(prefix):]
+
+    if prefix in message_body:
+        message_body = message_body[len(prefix):]
 
     response = requests.get(url='https://api.wit.ai/message?v=20161022&q='+message_body,headers={'Authorization': 'Bearer TUDKLORVVMITDT4FCJFMAARQAWB2NLJ2'})
     dict_response = json.loads(response.text)
