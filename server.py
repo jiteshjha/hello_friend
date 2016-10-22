@@ -124,7 +124,7 @@ def sms():
         msg = no_intent()
     elif intent == "weather":
         msg = weather(entities)
-    elif intent == "navigate"
+    elif intent == "navigate":
         msg = navigate(entities)
     else:
         msg = "Feature not supported"
