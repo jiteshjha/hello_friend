@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 from flask import Flask, request, redirect
 import twilio.twiml
 import random
@@ -171,6 +173,41 @@ def translate(entities):
 
     return resp
 
+@app.route("/news", methods=['POST'])
+def getNews(entities):
+    resp = twilio.twiml.Response()
+    newstopic = entities['news_topic'][0]['value']
+
+    if newstopic is None:
+        newstopic = "world" # lol
+
+    resp = requests.get(url='https://api.datamarket.azure.com/Bing/Search/News?$format=json&Query=%27' + newstopic + "%27", \
+     auth=('oeToVPEyRZIASRK2n2byOU1x0EMatLIpd8kCIvwXmMw','oeToVPEyRZIASRK2n2byOU1x0EMatLIpd8kCIvwXmMw'))
+
+    news_dict = json.loads(resp.text)
+    news = news_dict.get('d').get('results')
+
+    message = "Here are the top news stories about " + topic + ":\n"
+
+    if len(news) >= 5:
+        for x in range(0, 2):
+            message += news[x].get('Title') + ",\n"
+        message += news[2].get('Title')
+    else:
+        for item in news:
+            message += item.get('Title') + ",\n"
+        message += item.get('Title')
+
+    resp = twilio.twiml.Response()
+    resp.message(message)
+    # print message
+
+    # For TESTing -- START
+    send_sms_to_jitesh(message)
+    # For TESTing -- END
+
+    return resp
+
 @app.route("/sms", methods=['GET', 'POST'])
 def sms():
     message_body = request.values.get('Body', None)
@@ -204,6 +241,8 @@ def sms():
         msg = sos(dict_response)
     elif intent == "translate":
         msg = translate(entities)
+    elif intent == "news":
+        msg = getNews(entities)
     else:
         msg = "Feature not supported"
 
