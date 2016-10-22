@@ -210,6 +210,71 @@ def getNews(entities):
 
     return resp
 
+@app.route("/imdb", methods=['POST'])
+def imdb(entities):
+    resp = twilio.twiml.Response()
+    query_text = dict_response['_text']
+    if query_text.find("imdb ") != -1:
+        query_text = query_text[5:]
+
+    response = omdb.request(t='' + query_text + '', r='json')
+    data = json.loads(response.text)
+    
+    message = ""
+    mediatype = data["Type"]
+    year = data["Year"]
+    title = data["Title"]
+    if mediatype == "movie":
+        message += "Found a Movie, \"" + title + "\" (" + year + ")\n"
+    elif mediatype == "series":
+        message += "Found a TV show, \"" + title + "\" (" + year + ")\n"
+    for key in data:
+        if key in ["Rated", "Runtime", "Genre", "Director", "Writer"]:
+            if data[key] != "N/A":
+                message += key + ": " + data[key] + "\n"
+        if key == "imdbRating":
+            message += "IMDB: " + data[key] + "\n"
+    if data["Plot"] != "N/A":
+        message += "Plot: " + data["Plot"]
+
+    resp.message(message)
+
+    # For TESTing -- START
+    send_sms_to_jitesh(message)
+    # For TESTing -- END
+
+    return resp
+
+@app.route("/atm", methods=['POST'])
+def atm(dict_response):
+    resp = twilio.twiml.Response()
+    query_text = dict_response['_text']
+    if query_text.find("atm near ") != -1:
+        query_text = query_text[9:]
+
+    query_result = google_places.nearby_search(location=query_text, keyword='atm', radius=5000, types=[types.TYPE_ATM])
+
+    number_of_places = 0
+    message = ""
+
+    for place in query_result.places:
+        if number_of_places < 5:
+            number_of_places += 1
+            message = message + place.name
+            place_info = place.get_details()
+            if place.local_phone_number != None:
+                message = message + " " + place.local_phone_number
+            message = message + "\n"
+        else:
+            break
+
+    resp.message(message)
+
+    # For TESTing -- START
+    send_sms_to_jitesh(message)
+    # For TESTing -- END
+
+    return resp
 
 @app.route("/sms", methods=['GET', 'POST'])
 def sms():
@@ -246,6 +311,10 @@ def sms():
         msg = translate(entities)
     elif intent == "news":
         msg = define(entities)
+    elif intent == "imdb":
+        msg = atm(dict_response)
+    elif intent == "atm":
+        msg = atm(dict_response)
     else:
         msg = "Feature not supported"
 
