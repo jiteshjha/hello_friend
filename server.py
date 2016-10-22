@@ -40,6 +40,43 @@ def no_intent():
 
     return resp
 
+@app.route("/sos", methods=["POST"])
+def sos(dict_response):
+    resp = twilio.twiml.Response()
+    query_text = dict_response["_text"]
+
+    # remove sos prefix and clean location string
+    if query_text.find("sos ") != -1:
+        query_text = query_text[4:]
+    if query_text.find(" sos") != -1:
+        query_text = query_text[:-4]
+    if query_text.find("help ") != -1:
+        query_text = query_text[5:]
+    if query_text.find(" help") != -1:
+        query_text = query_text[:-5]
+
+    query_result = google_places.nearby_search(location=query_text, keyword='hospital', radius=5000, types=[types.TYPE_HOSPITAL])
+
+    number_of_places = 0
+    message = ""
+
+    for place in query_result.places:
+        if number_of_places < 2:
+            number_of_places += 1
+            message = message + place.name
+            place_info = place.get_details()
+            message = message + " " + place.local_phone_number + "\n"
+        else:
+            break
+
+    resp.message(message)
+
+    # For TESTing -- START
+    send_sms_to_jitesh(message)
+    # For TESTing -- END
+
+    return resp
+
 @app.route("/weather", methods=['POST'])
 def weather(entities):
     resp = twilio.twiml.Response()
@@ -126,6 +163,8 @@ def sms():
         msg = weather(entities)
     elif intent == "navigate":
         msg = navigate(entities)
+    elif intent == "sos":
+        msg = sos(dict_response)
     else:
         msg = "Feature not supported"
 
