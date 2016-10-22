@@ -4,6 +4,7 @@ import random
 import requests
 import json
 from googleplaces import GooglePlaces, types, lang
+from microsofttranslator import Translator
 
 gp_api_key = 'AIzaSyAX_75N29J--rh3Qj9gXjMBVx9IuD_Um74'
 google_places = GooglePlaces(gp_api_key)
@@ -137,6 +138,38 @@ def navigate(entities):
 
     return resp
 
+@app.route("/translate", methods=['POST'])
+def translate(entities):
+    resp = twilio.twiml.Response()
+
+    message = ""
+
+    text_for_translation = entities['phrase_to_translate'][0]['value']
+    language =  entities['language'][0]['value'].lower()
+
+    if language == "spanish":
+        language = "es"
+    elif language == "french":
+        language = "fr"
+    elif language == "german":
+        language = "de"
+    elif language == "chinese":
+        language = "zh-CHS"
+    else:
+        message = "Language not supported!"
+
+    if message != "Language not supported!":
+        message = "Translation:\n"
+        translator = Translator('SMSAssistant', 'fhV+AdYFiK0QfQ4PFys+oQ/T0xiBBVQa32kxxbP55Ks=')
+        message += translator.translate(text_for_translation, language)
+
+    resp.message(message)
+
+    # For TESTing -- START
+    send_sms_to_jitesh(message)
+    # For TESTing -- END
+
+    return resp
 
 @app.route("/sms", methods=['GET', 'POST'])
 def sms():
@@ -169,6 +202,8 @@ def sms():
         msg = navigate(entities)
     elif intent == "sos":
         msg = sos(dict_response)
+    elif intent == "translate":
+        msg = translate(entities)
     else:
         msg = "Feature not supported"
 
