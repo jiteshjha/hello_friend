@@ -209,6 +209,36 @@ def getNews(entities):
 
     return resp
 
+@app.route("/atm", methods=['POST'])
+def atm(entities):
+    resp = twilio.twiml.Response()
+    if query_text.find("atm near ") != -1:
+        query_text = query_text[9:]
+
+    query_result = google_places.nearby_search(location=query_text, keyword='atm', radius=5000, types=[types.TYPE_ATM])
+
+    number_of_places = 0
+    message = ""
+
+    for place in query_result.places:
+        if number_of_places < 5:
+            number_of_places += 1
+            message = message + place.name
+            place_info = place.get_details()
+            if place.local_phone_number != None:
+                message = message + " " + place.local_phone_number
+            message = message + "\n"
+        else:
+            break
+
+    resp.message(message)
+
+    # For TESTing -- START
+    send_sms_to_jitesh(message)
+    # For TESTing -- END
+
+    return resp
+
 @app.route("/sms", methods=['GET', 'POST'])
 def sms():
     message_body = request.values.get('Body', None)
