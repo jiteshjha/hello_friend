@@ -66,8 +66,8 @@ def weather(entities):
 @app.route("/navigate", methods=['POST'])
 def navigate(entities):
     resp = twilio.twiml.Response()
-    destination = dict_response['entities']['to'][0]['value']
-    origin = dict_response['entities']['from'][0]['value']
+    destination = entities['to'][0]['value']
+    origin = entities['from'][0]['value']
 
     key = "GSC5hkB0CEmUyk4nI2MY~HxNEzo1P1bHB1sX8EzDJpA~AmYeCHqvBerEI06DBSKWfo4pgB1w9Krgk7EH6lhGqqf3s5RaJArOzWJ-SL6AYVVw"
     bingMapsResponse = requests.get(url="http://dev.virtualearth.net/REST/V1/Routes/Driving?wp.0=" + origin + "&wp.1=" + destination + "&avoid=minimizeTolls&key="+key)
