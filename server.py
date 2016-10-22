@@ -62,14 +62,14 @@ def sos(dict_response):
     query_result = google_places.nearby_search(location=query_text, keyword='hospital', radius=5000, types=[types.TYPE_HOSPITAL])
 
     number_of_places = 0
-    message = ""
+    message = "List of Hospitals:\n"
 
     for place in query_result.places:
-        if number_of_places < 2:
+        if number_of_places < 3:
             number_of_places += 1
             message = message + place.name
             place_info = place.get_details()
-            message = message + " " + place.local_phone_number + "\n"
+            message = message + ", Ph: " + place.local_phone_number + "\n"
         else:
             break
 
