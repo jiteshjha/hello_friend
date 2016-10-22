@@ -187,7 +187,7 @@ def getNews(entities):
     news_dict = json.loads(resp.text)
     news = news_dict.get('d').get('results')
 
-    message = "Here are the top news stories about " + topic + ":\n"
+    message = "Here are the top news stories about " + newstopic + ":\n"
 
     if len(news) >= 5:
         for x in range(0, 2):
