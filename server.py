@@ -209,29 +209,6 @@ def getNews(entities):
 
     return resp
 
-@app.route("/define", methods=['POST'])
-def define(entities):
-    resp = twilio.twiml.Response()
-    topic = entities.get('wikipedia_search_query')[0]['value']
-
-    r = requests.get(url='http://api.duckduckgo.com/?q=' + topic + '&format=json&pretty=1')
-
-    topic_response = json.loads(r.text)
-    all_definitions = topic_response['RelatedTopics']
-    top_definitions = all_definitions[0]
-    definition = top_definitions['Text']
-
-    message = topic + " is defined as -" + definition
-
-    resp.message(message)
-    # print message
-
-    # For TESTing -- START
-    send_sms_to_jitesh(message)
-    # For TESTing -- END
-
-    return resp
-
 @app.route("/sms", methods=['GET', 'POST'])
 def sms():
     message_body = request.values.get('Body', None)
