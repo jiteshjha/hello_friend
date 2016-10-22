@@ -5,6 +5,7 @@ import twilio.twiml
 import random
 import requests
 import json
+import omdb
 from googleplaces import GooglePlaces, types, lang
 from microsofttranslator import Translator
 
@@ -208,6 +209,7 @@ def getNews(entities):
     # For TESTing -- END
 
     return resp
+
 
 @app.route("/sms", methods=['GET', 'POST'])
 def sms():
