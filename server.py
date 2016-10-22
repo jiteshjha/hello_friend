@@ -11,6 +11,8 @@ from microsofttranslator import Translator
 gp_api_key = 'AIzaSyAX_75N29J--rh3Qj9gXjMBVx9IuD_Um74'
 google_places = GooglePlaces(gp_api_key)
 
+bing_api_key = 'oeToVPEyRZIASRK2n2byOU1x0EMatLIpd8kCIvwXmMw'
+
 # For TESTing -- START
 from twilio.rest import TwilioRestClient
 # For TESTing -- END
@@ -181,10 +183,10 @@ def getNews(entities):
     if newstopic is None:
         newstopic = "world" # lol
 
-    resp = requests.get(url='https://api.datamarket.azure.com/Bing/Search/News?$format=json&Query=%27' + newstopic + "%27", \
-     auth=('oeToVPEyRZIASRK2n2byOU1x0EMatLIpd8kCIvwXmMw','oeToVPEyRZIASRK2n2byOU1x0EMatLIpd8kCIvwXmMw'))
+    r = requests.get(url='https://api.datamarket.azure.com/Bing/Search/News?$format=json&Query=%27' + newstopic + "%27", \
+     auth=(bing_api_key, bing_api_key))
 
-    news_dict = json.loads(resp.text)
+    news_dict = json.loads(r.text)
     news = news_dict.get('d').get('results')
 
     message = ""
@@ -198,7 +200,31 @@ def getNews(entities):
         for item in news:
             message += "- " + item.get('Title') + "\n"
 
+"""LINE REPEAT HERE, CHECK FOR FUCK UP"""
+    # resp = twilio.twiml.Response()
+    resp.message(message)
+    # print message
+
+    # For TESTing -- START
+    send_sms_to_jitesh(message)
+    # For TESTing -- END
+
+    return resp
+
+@app.route("/define", methods=['POST'])
+def define(entities):
     resp = twilio.twiml.Response()
+    topic = entities['wikipedia_search_query'][0]['value']
+
+    r = requests.get(url='http://api.duckduckgo.com/?q=' + topic + '&format=json&pretty=1')
+
+    topic_response = json.loads(r.text)
+    all_definitions = topic_response['RelatedTopics']
+    top_definitions = all_definitions[0]
+    definition = top_definitions['Text']
+
+    message = topic + " is defined as " + definition
+
     resp.message(message)
     # print message
 
@@ -243,6 +269,8 @@ def sms():
         msg = translate(entities)
     elif intent == "news":
         msg = getNews(entities)
+    elif intent == "define":
+        msg = define(entities)
     else:
         msg = "Feature not supported"
 
