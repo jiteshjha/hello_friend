@@ -3,6 +3,10 @@ import twilio.twiml
 import random
 import requests
 import json
+from googleplaces import GooglePlaces, types, lang
+
+gp_api_key = 'AIzaSyAX_75N29J--rh3Qj9gXjMBVx9IuD_Um74'
+google_places = GooglePlaces(gp_api_key)
 
 # For TESTing -- START
 from twilio.rest import TwilioRestClient
