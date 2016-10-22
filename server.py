@@ -212,7 +212,7 @@ def getNews(entities):
 @app.route("/atm", methods=['POST'])
 def atm(dict_response):
     resp = twilio.twiml.Response()
-    query_text = entities['_text']
+    query_text = dict_response['_text']
     if query_text.find("atm near ") != -1:
         query_text = query_text[9:]
 
