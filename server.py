@@ -1,6 +1,7 @@
 from flask import Flask, request, redirect
 import twilio.twiml
 import random
+import requests
 
 # For TESTing -- START
 from twilio.rest import TwilioRestClient
