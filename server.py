@@ -187,16 +187,16 @@ def getNews(entities):
     news_dict = json.loads(resp.text)
     news = news_dict.get('d').get('results')
 
-    message = "Here are the top news stories about " + newstopic + ":\n"
+    message = ""
 
     if len(news) >= 5:
-        for x in range(0, 2):
-            message += news[x].get('Title') + ",\n"
-        message += news[2].get('Title')
+        message = "Here are the top 5 stories about " + newstopic + ":\n"
+        for x in range(0, 5):
+            message += str(x+1) + ". " + news[x].get('Title') + ".\n"
     else:
+        message = "Here are the top news stories about " + newstopic + ":\n"
         for item in news:
-            message += item.get('Title') + ",\n"
-        message += item.get('Title')
+            message += "- " + item.get('Title') + "\n"
 
     resp = twilio.twiml.Response()
     resp.message(message)
