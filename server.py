@@ -210,8 +210,9 @@ def getNews(entities):
     return resp
 
 @app.route("/atm", methods=['POST'])
-def atm(entities):
+def atm(dict_response):
     resp = twilio.twiml.Response()
+    query_text = entities['_text']
     if query_text.find("atm near ") != -1:
         query_text = query_text[9:]
 
@@ -275,7 +276,7 @@ def sms():
     elif intent == "news":
         msg = define(entities)
     elif intent == "atm":
-        msg = atm(entities)
+        msg = atm(dict_response)
     else:
         msg = "Feature not supported"
 
