@@ -274,6 +274,8 @@ def sms():
         msg = translate(entities)
     elif intent == "news":
         msg = define(entities)
+    elif intent == "atm":
+        msg = atm(entities)
     else:
         msg = "Feature not supported"
 
