@@ -159,7 +159,7 @@ def translate(entities):
         message = "Language not supported!"
 
     if message != "Language not supported!":
-        message = "Translation:\n"
+        message = "Translation for " + text_for_translation + " to " + language + ":\n"
         translator = Translator('SMSAssistant', 'fhV+AdYFiK0QfQ4PFys+oQ/T0xiBBVQa32kxxbP55Ks=')
         message += translator.translate(text_for_translation, language)
 
