@@ -17,4 +17,3 @@ wolframalpha==1.2
 wsgiref==0.1.2
 gunicorn==19.6.0
 python-google-places
-microsofttranslator
