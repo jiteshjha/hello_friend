@@ -8,6 +8,7 @@ import json
 import omdb
 from googleplaces import GooglePlaces, types, lang
 from microsofttranslator import Translator
+from yahoo_finance import Share
 
 gp_api_key = 'AIzaSyAX_75N29J--rh3Qj9gXjMBVx9IuD_Um74'
 google_places = GooglePlaces(gp_api_key)
@@ -245,6 +246,28 @@ def imdb(dict_response):
 
     return resp
 
+@app.route("/stocks", methods=['POST'])
+def stocks(dict_response):
+    resp = twilio.twiml.Response()
+    query_text = dict_response['_text']
+    if query_text.find("stocks ") != -1:
+        query_text = query_text[7:]
+
+    message = ""
+
+    y = Share(query_text)
+    message += "Trading information for " + y.get_name() + " (" + query_text + ") :\n"
+    message += "Opened: " + y.get_open() + "\n"
+    message += "Current: " + y.get_price() + "\n"
+    message += "Earnings share: " + y.get_earnings_share() + "\n"
+    message += "Short ratio: " + y.get_short_ratio() + "\n"
+    message += "Previous close: " + y.get_prev_close() + "\n"
+
+    resp.message(message)
+
+    # For TESTing -- START
+    send_sms_to_jitesh(message)
+
 @app.route("/atm", methods=['POST'])
 def atm(dict_response):
     resp = twilio.twiml.Response()
@@ -315,6 +338,8 @@ def sms():
         msg = imdb(dict_response)
     elif intent == "atm":
         msg = atm(dict_response)
+    elif intent == "stocks":
+        msg = stocks(dict_response)
     else:
         msg = "Feature not supported"
 
