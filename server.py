@@ -54,7 +54,7 @@ def no_intent():
 @app.route("/sos", methods=["POST"])
 def sos(dict_response):
     resp = twilio.twiml.Response()
-    query_text = dict_response["_text"]
+    query_text = dict_response["_text"].lower()
 
     # remove sos prefix and clean location string
     if query_text.find("sos ") != -1:
@@ -91,7 +91,7 @@ def sos(dict_response):
 @app.route("/weather", methods=['POST'])
 def weather(entities):
     resp = twilio.twiml.Response()
-    location = entities['location'][0]['value']
+    location = entities['location'][0]['value'].lower()
     response = requests.get(url="http://api.openweathermap.org/data/2.5/weather?q=" + location + "&APPID=500d01a6ece6498b1cbf94ed23519119")
     dict_response = json.loads(response.text)
 
@@ -115,7 +115,7 @@ def weather(entities):
 def navigate(entities):
     resp = twilio.twiml.Response()
     destination = entities['to'][0]['value']
-    origin = entities['from'][0]['value']
+    origin = entities['from'][0]['value'].lower()
 
     key = "GSC5hkB0CEmUyk4nI2MY~HxNEzo1P1bHB1sX8EzDJpA~AmYeCHqvBerEI06DBSKWfo4pgB1w9Krgk7EH6lhGqqf3s5RaJArOzWJ-SL6AYVVw"
     bingMapsResponse = requests.get(url="http://dev.virtualearth.net/REST/V1/Routes/Driving?wp.0=" + origin + "&wp.1=" + destination + "&avoid=minimizeTolls&key="+key)
@@ -180,7 +180,7 @@ def translate(entities):
 @app.route("/news", methods=['POST'])
 def getNews(entities):
     resp = twilio.twiml.Response()
-    newstopic = entities['news_topic'][0]['value']
+    newstopic = entities['news_topic'][0]['value'].lower()
 
     # default topic
     if newstopic is None:
@@ -214,7 +214,7 @@ def getNews(entities):
 @app.route("/imdb", methods=['POST'])
 def imdb(dict_response):
     resp = twilio.twiml.Response()
-    query_text = dict_response['_text']
+    query_text = dict_response['_text'].lower()
     if query_text.find("imdb ") != -1:
         query_text = query_text[5:]
 
@@ -249,7 +249,7 @@ def imdb(dict_response):
 @app.route("/stocks", methods=['POST'])
 def stocks(dict_response):
     resp = twilio.twiml.Response()
-    query_text = dict_response['_text']
+    query_text = dict_response['_text'].lower()
     if query_text.find("stocks ") != -1:
         query_text = query_text[7:]
 
@@ -271,7 +271,7 @@ def stocks(dict_response):
 @app.route("/atm", methods=['POST'])
 def atm(dict_response):
     resp = twilio.twiml.Response()
-    query_text = dict_response['_text']
+    query_text = dict_response['_text'].lower()
     if query_text.find("atm near ") != -1:
         query_text = query_text[9:]
 
@@ -302,7 +302,7 @@ def atm(dict_response):
 @app.route("/define", methods=['POST'])
 def define(dict_response):
     resp = twilio.twiml.Response()
-    query_text = dict_response['_text']
+    query_text = dict_response['_text'].lower()
     if query_text.find("define ") != -1:
         topic = query_text[7:]
 
