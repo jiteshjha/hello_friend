@@ -219,7 +219,7 @@ def imdb(entities):
 
     response = omdb.request(t='' + query_text + '', r='json')
     data = json.loads(response.text)
-    
+
     message = ""
     mediatype = data["Type"]
     year = data["Year"]
@@ -312,7 +312,7 @@ def sms():
     elif intent == "news":
         msg = define(entities)
     elif intent == "imdb":
-        msg = atm(dict_response)
+        msg = imdb(dict_response)
     elif intent == "atm":
         msg = atm(dict_response)
     else:
