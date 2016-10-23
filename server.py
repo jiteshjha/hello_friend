@@ -211,7 +211,7 @@ def getNews(entities):
     return resp
 
 @app.route("/imdb", methods=['POST'])
-def imdb(entities):
+def imdb(dict_response):
     resp = twilio.twiml.Response()
     query_text = dict_response['_text']
     if query_text.find("imdb ") != -1:
