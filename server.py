@@ -292,7 +292,7 @@ def define(dict_response):
     if len(all_definitions) > 0:
         top_definitions = all_definitions[0]
         definition = top_definitions['Text']
-        message = message + " is defined as " + definition
+        message = topic + " is defined as " + definition
     else:
         message = "Definition not found"
 
