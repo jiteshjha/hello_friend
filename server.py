@@ -285,6 +285,8 @@ def define(dict_response):
 
     r = requests.get(url='http://api.duckduckgo.com/?q=' + topic + '&format=json&pretty=1')
 
+    message = ""
+
     topic_response = json.loads(r.text)
     all_definitions = topic_response['RelatedTopics']
     if len(all_definitions) > 0:
