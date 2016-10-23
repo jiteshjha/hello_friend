@@ -277,7 +277,7 @@ def atm(dict_response):
     return resp
 
 @app.route("/define", methods=['POST'])
-def defin(dict_response):
+def define(dict_response):
     resp = twilio.twiml.Response()
     query_text = dict_response['_text']
     if query_text.find("define ") != -1:
