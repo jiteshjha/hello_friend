@@ -276,6 +276,32 @@ def atm(dict_response):
 
     return resp
 
+@app.route("/define", methods=['POST'])
+def defin(dict_response):
+    resp = twilio.twiml.Response()
+    query_text = dict_response['_text']
+    if query_text.find("define ") != -1:
+        topic = query_text[7:]
+
+    r = requests.get(url='http://api.duckduckgo.com/?q=' + topic + '&format=json&pretty=1')
+
+    topic_response = json.loads(r.text)
+    all_definitions = topic_response['RelatedTopics']
+    if len(all_definitions) > 0:
+        top_definitions = all_definitions[0]
+        definition = top_definitions['Text']
+        message = message + " is defined as " + definition
+    else:
+        message = "Definition not found"
+
+    resp.message(message)
+
+    # For TESTing -- START
+    send_sms_to_jitesh(message)
+    # For TESTing -- END
+
+    return resp
+
 @app.route("/sms", methods=['GET', 'POST'])
 def sms():
     message_body = request.values.get('Body', None)
@@ -315,6 +341,8 @@ def sms():
         msg = imdb(dict_response)
     elif intent == "atm":
         msg = atm(dict_response)
+    elif intent == "define":
+        msg = define(dict_response)
     else:
         msg = "Feature not supported"
 
