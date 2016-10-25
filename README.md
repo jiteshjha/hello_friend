@@ -1,7 +1,7 @@
 # hello_friend
-Code.Fun.Do 2016 Hackathon project by team ./
+Code.Fun.Do 2016 Hackathon project by team ./ [dot slash]
 
-[Twilio HTTP](https://cfd-sms.herokuapp.com/)
+[Use our Twilio HTTP to access hello_friend services](https://cfd-sms.herokuapp.com/)
 
 Number: +1 877-954-5971
 
@@ -16,7 +16,7 @@ Number: +1 877-954-5971
 * Check out information on all the movies
 * Prepare for sun or rain with weather updates
 
-And the best part? No need to have Internet, or even a smartphone
+And the best part? No need to have Internet, or even a smartphone.
 
 ## Stuff used to make this:
 * [Twilio](https://www.twilio.com)
