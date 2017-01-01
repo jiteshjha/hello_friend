@@ -6,7 +6,7 @@ A Q&A service through SMS.
 
 [Use our Twilio HTTP to access hello_friend services](https://cfd-sms.herokuapp.com/)
 
-Number: +1 877-954-5971
+Number: +1 877-954-5971 (Number is obsolete now, trial period is over.)
 
 ## Features:
 * Call for help using the SOS module
@@ -21,7 +21,7 @@ Number: +1 877-954-5971
 
 And the best part? No need to have Internet, or even a smartphone.
 
-## Stuff used to make this:
+## API's used:
 * [Twilio](https://www.twilio.com)
 * [Heroku](https://www.heroku.com)
 * [Wit.ai](https://wit.ai)
