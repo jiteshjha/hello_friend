@@ -6,9 +6,9 @@ A Q&A service through SMS.
 
 [Use our Twilio HTTP to access hello_friend services](https://cfd-sms.herokuapp.com/)
 
-Number: +1 877-954-5971 (Number is obsolete now, trial period is over.)
+Number: +1 206-745-6187
 
-## Features:
+## Features
 * Call for help using the SOS module
 * Find the best route to your destination
 * Catch up on the latest news
@@ -21,7 +21,8 @@ Number: +1 877-954-5971 (Number is obsolete now, trial period is over.)
 
 And the best part? No need to have Internet, or even a smartphone.
 
-## API's used:
+
+## APIs used
 * [Twilio](https://www.twilio.com)
 * [Heroku](https://www.heroku.com)
 * [Wit.ai](https://wit.ai)
@@ -35,12 +36,30 @@ And the best part? No need to have Internet, or even a smartphone.
 * [Yahoo Finance](https://pypi.python.org/pypi/yahoo-finance/1.1.4)
 
 
-## Developed by:
+## Developed by
 
 [Yash Kumar Lal](https://github.com/ykl7)
 
-
-[JItesh Kumar Jha](https://github.com/jiteshjha)
-
+[Jitesh Kumar Jha](https://github.com/jiteshjha)
 
 [Avikant Saini](https://github.com/avikantz)
+
+
+## Beta Testing
+
+Since a trial Twilio account has been used, the number (user) used to send and receive messages and information needs to be verified on Twilio through the account that has been used in setup of the service. Please contact any of the 3 of use for the same.
+
+The information being received is also dependent on the APIs being used, which have been listed above. Sometimes, the response returned is slow, so patience is advised, or the request might also return invalid messages.
+
+### Templates
+
+To test out various modules, templates can be found below:
+* ```navigate from locality, city to locality, city```. To and from locations can be interchanged as well. The correct interpretation is autodetected.
+* ```whats the weather in city today```
+* ```help locality, city``` OR ```sos locality, city```
+* ```how do you say word in language```
+* ```imdb movie-name```
+* ```stocks stock-name```
+* ```atm near locality, city```
+* ```define word/phrase```
+* ```show me sports news```
