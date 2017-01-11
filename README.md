@@ -4,8 +4,6 @@ Code.Fun.Do 2016 Hackathon project by team ./ [dot slash]
 
 A Q&A service through SMS.
 
-[Use our Twilio HTTP to access hello_friend services](https://cfd-sms.herokuapp.com/)
-
 Number: +1 206-745-6187
 
 ## Features
@@ -47,7 +45,7 @@ And the best part? No need to have Internet, or even a smartphone.
 
 ## Beta Testing
 
-Since a trial Twilio account has been used, the number (user) used to send and receive messages and information needs to be verified on Twilio through the account that has been used in setup of the service. Please contact any of the 3 of use for the same.
+Since a trial Twilio account (valid for 30 days (expires on Feb 8, 2017)) has been used, the number (user) used to send and receive messages and information needs to be verified on Twilio through the account that has been used in setup of the service. Please contact any of the 3 of use for the same.
 
 The information being received is also dependent on the APIs being used, which have been listed above. Sometimes, the response returned is slow, so patience is advised, or the request might also return invalid messages.
 
@@ -63,3 +61,12 @@ To test out various modules, templates can be found below:
 * ```atm near locality, city```
 * ```define word/phrase```
 * ```show me sports news```
+
+### Languages
+
+The languages currently supported by our Translate feature are:
+
+* German
+* French
+* Spanish
+* Chinese

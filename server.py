@@ -29,7 +29,7 @@ def send_sms_to_jitesh(message):
     auth_token = "cef3bac7ba6d045c7e6cf4b6c21581eb"
     client = TwilioRestClient(account_sid, auth_token)
 
-    message = client.messages.create(to="+919591361570", from_="+18779545971",
+    message = client.messages.create(to="+918095718111", from_="+18779545971",
                                          body=message)
 # For TESTing -- END
 
