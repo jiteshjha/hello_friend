@@ -19,6 +19,10 @@ Number: +1 206-745-6187
 
 And the best part? No need to have Internet, or even a smartphone.
 
+## Video
+
+[![hello_friend](img/hellofriend.jpg)](https://www.youtube.com/watch?v=uhFQZIb5V6E)
+
 
 ## APIs used
 * [Twilio](https://www.twilio.com)
